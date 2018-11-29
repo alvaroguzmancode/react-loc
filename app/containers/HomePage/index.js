@@ -7,7 +7,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
-import { FormattedMessage } from 'react-intl';
+// import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
@@ -19,32 +19,53 @@ import {
   makeSelectLoading,
   makeSelectError,
 } from 'containers/App/selectors';
-import H2 from 'components/H2';
+/* import H2 from 'components/H2';
 import ReposList from 'components/ReposList';
-import AtPrefix from './AtPrefix';
+import AtPrefix from './AtPrefix'; */
 import CenteredSection from './CenteredSection';
-import Form from './Form';
+/* import Form from './Form';
 import Input from './Input';
 import Section from './Section';
-import messages from './messages';
+import messages from './messages'; */
 import { loadRepos } from '../App/actions';
 import { changeUsername } from './actions';
 import { makeSelectUsername } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
+import { feathersServices } from './../App/redux/FeathersRedux';
+import { Button, Header, Icon, Image, Menu, Segment, Sidebar } from 'semantic-ui-react'
 
 /* eslint-disable react/prefer-stateless-function */
 export class HomePage extends React.PureComponent {
+
+  constructor(props){
+    super(props);
+    this.state = { visible: false }
+  }
+
   /**
    * when initial state username is not null, submit the form to load repos
    */
   componentDidMount() {
-    if (this.props.username && this.props.username.trim().length > 0) {
+    /* if (this.props.username && this.props.username.trim().length > 0) {
       this.props.onSubmitForm();
-    }
+    } */
   }
 
-  render() {
+  onClickBtn = () => {
+    feathersServices.services("estado").create({
+      name: "CDMX"
+    }).then(response => {
+      console.log("este es el response");
+      console.log(response);
+    })
+    .catch(err => {
+      console.log("este es el error");
+      console.log(err);
+    }); 
+  }
+
+  render1() {
     const { loading, error, repos } = this.props;
     const reposListProps = {
       loading,
@@ -63,38 +84,66 @@ export class HomePage extends React.PureComponent {
         </Helmet>
         <div>
           <CenteredSection>
-            <H2>
-              <FormattedMessage {...messages.startProjectHeader} />
-            </H2>
-            <p>
-              <FormattedMessage {...messages.startProjectMessage} />
-            </p>
+          
           </CenteredSection>
-          <Section>
-            <H2>
-              <FormattedMessage {...messages.trymeHeader} />
-            </H2>
-            <Form onSubmit={this.props.onSubmitForm}>
-              <label htmlFor="username">
-                <FormattedMessage {...messages.trymeMessage} />
-                <AtPrefix>
-                  <FormattedMessage {...messages.trymeAtPrefix} />
-                </AtPrefix>
-                <Input
-                  id="username"
-                  type="text"
-                  placeholder="mxstbr"
-                  value={this.props.username}
-                  onChange={this.props.onChangeUsername}
-                />
-              </label>
-            </Form>
-            <ReposList {...reposListProps} />
-          </Section>
         </div>
       </article>
     );
   }
+
+  handleHideClick = () => this.setState({ visible: false })
+  handleShowClick = () => this.setState({ visible: true })
+  handleSidebarHide = () => this.setState({ visible: false })
+
+  render(){
+    const { visible } = this.state;
+    return (
+      <div>
+        <Button.Group>
+          <Button disabled={visible} onClick={this.handleShowClick}>
+            Show sidebar
+          </Button>
+          <Button disabled={!visible} onClick={this.handleHideClick}>
+            Hide sidebar
+          </Button>
+        </Button.Group>
+
+        <Sidebar.Pushable as={Segment}>
+          <Sidebar
+            as={Menu}
+            animation='overlay'
+            icon='labeled'
+            inverted
+            onHide={this.handleSidebarHide}
+            vertical
+            visible={visible}
+            width='thin'
+          >
+            <Menu.Item as='a'>
+              <Icon name='home' />
+              Home
+            </Menu.Item>
+            <Menu.Item as='a'>
+              <Icon name='gamepad' />
+              Games
+            </Menu.Item>
+            <Menu.Item as='a'>
+              <Icon name='camera' />
+              Channels
+            </Menu.Item>
+          </Sidebar>
+
+          <Sidebar.Pusher>
+            <Segment basic>
+              <Header as='h3'>Application Content</Header>
+              <Image src='/images/wireframe/paragraph.png' />
+            </Segment>
+          </Sidebar.Pusher>
+        </Sidebar.Pushable>
+      </div>
+    );
+  }
+
 }
 
 HomePage.propTypes = {
@@ -128,7 +177,12 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-const withReducer = injectReducer({ key: 'home', reducer });
+const withReducer = injectReducer({ 
+  key: 'home', 
+  reducer,
+  auth: feathersAuthentication.reducer,
+  services: feathersServices, 
+});
 const withSaga = injectSaga({ key: 'home', saga });
 
 export default compose(
