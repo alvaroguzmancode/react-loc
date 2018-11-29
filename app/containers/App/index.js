@@ -42,12 +42,12 @@ export default function App() {
         <meta name="description" content="A React.js Boilerplate application" />
       </Helmet>
       
-        <Switch >
-          <Route exact path="/" component={Home} />
-          <Route exact path="/estados" component={EstadoList} />
-          <Route path="/features" component={FeaturePage} />
-          <Route path="" component={NotFoundPage} />
-        </Switch>
+      <Switch >
+        <Route exact path="/" component={Home} />
+        <Route exact path="/estados" component={EstadoList} />
+        <Route path="/features" component={FeaturePage} />
+        <Route path="" component={NotFoundPage} />
+      </Switch>
       <GlobalStyle />
     </AppWrapper>
   );

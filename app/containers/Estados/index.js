@@ -20,38 +20,38 @@ export class Estados extends React.Component {
     const socket = io('http://localhost:3030/', { transports: ['websocket'] });
     const client = feathers().configure(feathers.socketio(socket));
     client.service("estado").create({
-      name: "CDMX"
+      name: "CDMX",
     }).then(response => {
       console.log("este es el response");
       console.log(response);
     })
-    .catch(err => {
-      console.log("este es el error");
-      console.log(err);
-    }); 
+      .catch(err => {
+        console.log("este es el error");
+        console.log(err);
+      }); 
     const estadoService = client.service('estado');
 
     estadoService.find()
-    .then(res => {
-      console.log("este es el resultado");
-      console.log(res);
-    }).catch(err => {
-      console.log("asdads");
-      console.log(err);
-    });
+      .then(res => {
+        console.log("este es el resultado");
+        console.log(res);
+      }).catch(err => {
+        console.log("asdads");
+        console.log(err);
+      });
   }
 
   onClickBtn = () => {
     feathersServices.services("estado").create({
-      name: "CDMX"
+      name: "CDMX",
     }).then(response => {
       console.log("este es el response");
       console.log(response);
     })
-    .catch(err => {
-      console.log("este es el error");
-      console.log(err);
-    }); 
+      .catch(err => {
+        console.log("este es el error");
+        console.log(err);
+      }); 
   }
 
 
@@ -62,7 +62,7 @@ export class Estados extends React.Component {
           <title>Estados</title>
           <meta name="description" content="Description of Estados" />
         </Helmet>
-  <Button basic color="green" onClick={this.onClickBtn} />
+        <Button basic color="green" onClick={this.onClickBtn} />
         <h1>Hola mundo</h1>
       </div>
     );

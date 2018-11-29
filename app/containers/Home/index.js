@@ -13,7 +13,7 @@ import SideBar from '../../components/SideBar/Loadable';
 /* eslint-disable react/prefer-stateless-function */
 export class Home extends React.Component {
   state = {
-    name: ""
+    name: "",
   }
 
   renderb() {

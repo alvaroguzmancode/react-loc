@@ -9,15 +9,15 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Divider, Form, Segment, Button, Pagination } from 'semantic-ui-react';
-import SideBar from '../../components/SideBar/Loadable';
 import feathers from '@feathersjs/client';
 import io from 'socket.io-client';
+import SideBar from '../../components/SideBar/Loadable';
 /* eslint-disable react/prefer-stateless-function */
 export class EstadoList extends React.Component {
   state = {
     name: "",
     page: 1,
-    totalPages: 0
+    totalPages: 0,
   }
 
   componentDidMount(){
@@ -33,25 +33,25 @@ export class EstadoList extends React.Component {
     const socket = io('http://localhost:3030/', { transports: ['websocket'] });
     const client = feathers().configure(feathers.socketio(socket));
     client.service("estado").find()
-    .then(response => {
-      console.log("este es el response");
-      console.log(response);
-    })
-    .catch(err => {
-      console.log("este es el error");
-      console.log(err);
-    });
+      .then(response => {
+        console.log("este es el response");
+        console.log(response);
+      })
+      .catch(err => {
+        console.log("este es el error");
+        console.log(err);
+      });
     return
     feathersServices.services("estado").create({
-      name: "CDMX"
+      name: "CDMX",
     }).then(response => {
       console.log("este es el response");
       console.log(response);
     })
-    .catch(err => {
-      console.log("este es el error");
-      console.log(err);
-    });
+      .catch(err => {
+        console.log("este es el error");
+        console.log(err);
+      });
   }
 
   renderb() {

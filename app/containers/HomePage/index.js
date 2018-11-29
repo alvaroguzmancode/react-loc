@@ -22,6 +22,7 @@ import {
 /* import H2 from 'components/H2';
 import ReposList from 'components/ReposList';
 import AtPrefix from './AtPrefix'; */
+import { Button, Header, Icon, Image, Menu, Segment, Sidebar } from 'semantic-ui-react'
 import CenteredSection from './CenteredSection';
 /* import Form from './Form';
 import Input from './Input';
@@ -32,8 +33,7 @@ import { changeUsername } from './actions';
 import { makeSelectUsername } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import { feathersServices } from './../App/redux/FeathersRedux';
-import { Button, Header, Icon, Image, Menu, Segment, Sidebar } from 'semantic-ui-react'
+import { feathersServices } from "../App/redux/FeathersRedux";
 
 /* eslint-disable react/prefer-stateless-function */
 export class HomePage extends React.PureComponent {
@@ -54,15 +54,15 @@ export class HomePage extends React.PureComponent {
 
   onClickBtn = () => {
     feathersServices.services("estado").create({
-      name: "CDMX"
+      name: "CDMX",
     }).then(response => {
       console.log("este es el response");
       console.log(response);
     })
-    .catch(err => {
-      console.log("este es el error");
-      console.log(err);
-    }); 
+      .catch(err => {
+        console.log("este es el error");
+        console.log(err);
+      }); 
   }
 
   render1() {
@@ -92,7 +92,9 @@ export class HomePage extends React.PureComponent {
   }
 
   handleHideClick = () => this.setState({ visible: false })
+
   handleShowClick = () => this.setState({ visible: true })
+
   handleSidebarHide = () => this.setState({ visible: false })
 
   render(){
